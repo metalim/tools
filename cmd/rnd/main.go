@@ -9,6 +9,11 @@ import (
 )
 
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: rnd [-f] <upper_bound>\n")
+		flag.PrintDefaults()
+	}
+
 	f := flag.Bool("f", false, "Generate a float number")
 	flag.Parse()
 	if *f {
@@ -30,6 +35,7 @@ func generateFloat(upperBound string) {
 	upperBoundFloat, err := strconv.ParseFloat(upperBound, 64)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid upper bound: %s\n", err)
+		flag.Usage()
 		os.Exit(1)
 	}
 
@@ -41,6 +47,7 @@ func generateInt(upperBound string) {
 	upperBoundInt, err := strconv.Atoi(upperBound)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid upper bound: %s\n", err)
+		flag.Usage()
 		os.Exit(1)
 	}
 
